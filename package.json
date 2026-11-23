@@ -1,0 +1,15 @@
+{
+  "name": "@page2401/docsify-v5",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "SSG Benchmark Submodule — Docsify v5 (5.1.0 · Modern Theme Variables, Native Callouts & ESM Mermaid 12)",
+  "scripts": {
+    "build": "node scripts/build-static.mjs"
+  },
+  "dependencies": {
+    "docsify": "5.1.0",
+    "katex": "0.19.1",
+    "mermaid": "12.3.0"
+  }
+}
