@@ -8,3 +8,4 @@
     * **nested 子目录（_sidebar.md）**
       * [A. 下划线文件与 .nojekyll 死穴](04-directory/nested/01-underscore-trap.md)
       * [B. Hash 路由与客户端瀑布流](04-directory/nested/02-hash-routing.md)
+  * [05. 高阶代码块与语法高亮](05-code-blocks.md)

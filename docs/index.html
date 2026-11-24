@@ -27,6 +27,28 @@
         padding: 0.5rem 0;
         text-align: center;
       }
+      .markdown-section pre code .token.deleted {
+        display: inline-block;
+        width: 100%;
+        background-color: rgba(220, 38, 38, 0.12);
+        color: #b91c1c;
+      }
+      .markdown-section pre code .token.inserted {
+        display: inline-block;
+        width: 100%;
+        background-color: rgba(22, 163, 74, 0.12);
+        color: #15803d;
+      }
+      html[data-theme='dark'] .markdown-section pre code .token.deleted,
+      html.dark .markdown-section pre code .token.deleted {
+        background-color: rgba(248, 113, 113, 0.16);
+        color: #fca5a5;
+      }
+      html[data-theme='dark'] .markdown-section pre code .token.inserted,
+      html.dark .markdown-section pre code .token.inserted {
+        background-color: rgba(74, 222, 128, 0.16);
+        color: #86efac;
+      }
     </style>
     <script>
       // Sync parent portal theme toggle (data-theme='dark'|'light') with Docsify 5 core-dark.min.css
@@ -116,6 +138,10 @@
       }
     </script>
     <script src="./vendor/docsify.min.js"></script>
+    <script src="./vendor/prism/prism-typescript.min.js"></script>
+    <script src="./vendor/prism/prism-json.min.js"></script>
+    <script src="./vendor/prism/prism-bash.min.js"></script>
+    <script src="./vendor/prism/prism-diff.min.js"></script>
     <script src="./vendor/plugins/front-matter.min.js"></script>
     <script src="./vendor/plugins/search.min.js"></script>
   </body>

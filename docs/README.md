@@ -10,6 +10,7 @@ title: "Docsify v5 基准实测"
 > 2. **全新模块化 CSS 变量主题体系**：废弃旧版耦合样式，改由 `dist/themes/core.min.css` + `addons/core-dark.min.css` 原生提供深浅色主题支持。
 > 3. **包结构重构（`lib/` -> `dist/`）**：发布包全面转向 `dist/` 并提供原生 ESM 导出。
 > 4. **破坏性 API 变更**：升级现代版 `marked` 后，`markdown.renderer.code` 入参由 `(code, lang)` 变更为对象 Token `({ text, lang })`。
+> 5. **客户端 Prism.js 暗色变量升级但语言裁剪未变**：`dist/themes/addons/core-dark.min.css` 原生接管 `--code-theme-*` Token 配色，但 `ts`、`json`、`bash`、`diff` 仍须在 `docsify.min.js` 后外挂 `prism-*.min.js`。
 
 ## 精确锁定版本清单
 

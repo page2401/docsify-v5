@@ -61,6 +61,13 @@ for (const f of fs.readdirSync(path.join(root, 'node_modules/katex/dist/fonts'))
     path.join(vendorDir, 'fonts', f)
   )
 }
+fs.mkdirSync(path.join(vendorDir, 'prism'), { recursive: true })
+for (const lang of ['typescript', 'json', 'bash', 'diff']) {
+  fs.copyFileSync(
+    path.join(root, `node_modules/prismjs/components/prism-${lang}.min.js`),
+    path.join(vendorDir, 'prism', `prism-${lang}.min.js`)
+  )
+}
 fs.copyFileSync(
   path.join(root, 'node_modules/mermaid/dist/mermaid.min.js'),
   path.join(vendorDir, 'mermaid.min.js')
