@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Docsify v5 (5.1.0) — 新一代运行时渲染基准站</title>
+    <link rel="stylesheet" href="./vendor/themes/core.min.css" />
+    <link rel="stylesheet" href="./vendor/themes/addons/vue.min.css" />
+    <link
+      rel="stylesheet"
+      href="./vendor/themes/addons/core-dark.min.css"
+      id="docsify-dark-sheet"
+      media="(prefers-color-scheme: dark)"
+    />
+    <link rel="stylesheet" href="./vendor/katex.min.css" />
+    <style>
+      .docsify-mermaid {
+        margin: 1.25rem 0;
+        padding: 1rem;
+        border: 1px solid rgba(128, 128, 128, 0.25);
+        border-radius: 8px;
+        text-align: center;
+        overflow-x: auto;
+      }
+      .katex-block {
+        overflow-x: auto;
+        padding: 0.5rem 0;
+        text-align: center;
+      }
+      .markdown-section pre code .token.deleted {
+        display: inline-block;
+        width: 100%;
+        background-color: rgba(220, 38, 38, 0.12);
+        color: #b91c1c;
+      }
+      .markdown-section pre code .token.inserted {
+        display: inline-block;
+        width: 100%;
+        background-color: rgba(22, 163, 74, 0.12);
+        color: #15803d;
+      }
+      html[data-theme='dark'] .markdown-section pre code .token.deleted,
+      html.dark .markdown-section pre code .token.deleted {
+        background-color: rgba(248, 113, 113, 0.16);
+        color: #fca5a5;
+      }
+      html[data-theme='dark'] .markdown-section pre code .token.inserted,
+      html.dark .markdown-section pre code .token.inserted {
+        background-color: rgba(74, 222, 128, 0.16);
+        color: #86efac;
+      }
+    </style>
+    <script>
+      // Sync parent portal theme toggle (data-theme='dark'|'light') with Docsify 5 core-dark.min.css
+      ;(function () {
+        const darkSheet = document.getElementById('docsify-dark-sheet')
+        function applyDarkSync() {
+          const attr = document.documentElement.getAttribute('data-theme')
+          if (!darkSheet || !attr) return
+          darkSheet.media = attr === 'dark' ? 'all' : 'not all'
+        }
+        applyDarkSync()
+        new MutationObserver(applyDarkSync).observe(document.documentElement, {
+          attributes: true,
+          attributeFilter: ['data-theme']
+        })
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="app">正在加载 Docsify v5 (5.1.0)...</div>
+    <script src="./vendor/katex.min.js"></script>
+    <script src="./vendor/mermaid.min.js"></script>
+    <script>
+      mermaid.initialize({ startOnLoad: false, securityLevel: 'loose' })
+
+      function renderMathInMarkdown(md) {
+        const codeBlocks = []
+        let out = md.replace(/```[\s\S]*?```/g, function (m) {
+          codeBlocks.push(m)
+          return '@@CODEBLOCK_' + (codeBlocks.length - 1) + '@@'
+        })
+        out = out.replace(/\$\$([\s\S]+?)\$\$/g, function (_, tex) {
+          return (
+            '<div class="katex-block">' +
+            window.katex.renderToString(tex.trim(), { displayMode: true, throwOnError: false }) +
+            '</div>'
+          )
+        })
+        out = out.replace(/(?<!\\)\$([^\$\n]+?)(?<!\\)\$/g, function (_, tex) {
+          return window.katex.renderToString(tex, { displayMode: false, throwOnError: false })
+        })
+        out = out.replace(/\\\$/g, '&#36;')
+        return out.replace(/@@CODEBLOCK_(\d+)@@/g, function (_, idx) {
+          return codeBlocks[Number(idx)]
+        })
+      }
+
+      window.$docsify = {
+        name: 'Docsify v5 · 5.1.0',
+        repo: 'https://github.com/page2401/docsify-v5',
+        loadSidebar: true,
+        subMaxLevel: 2,
+        auto2top: true,
+        search: {
+          placeholder: '搜索文档...',
+          noData: '无匹配结果'
+        },
+        markdown: {
+          renderer: {
+            // Breaking change in Docsify v5: marked passes token object { text, lang } instead of (code, lang)
+            code: function (codeOrToken, legacyLang) {
+              const rawCode = typeof codeOrToken === 'object' ? codeOrToken.text : codeOrToken
+              const lang = typeof codeOrToken === 'object' ? codeOrToken.lang : legacyLang
+              if (lang === 'mermaid') {
+                return '<div class="docsify-mermaid"><pre class="mermaid">' + rawCode + '</pre></div>'
+              }
+              return this.origin.code.apply(this, arguments)
+            }
+          }
+        },
+        plugins: [
+          function (hook) {
+            hook.beforeEach(function (content) {
+              return renderMathInMarkdown(content)
+            })
+            hook.doneEach(function () {
+              const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
+              mermaid.initialize({
+                startOnLoad: false,
+                theme: isDark ? 'dark' : 'default',
+                securityLevel: 'loose'
+              })
+              mermaid.run({ querySelector: '.docsify-mermaid pre.mermaid' })
+            })
+          }
+        ]
+      }
+    </script>
+    <script src="./vendor/docsify.min.js"></script>
+    <script src="./vendor/prism/prism-typescript.min.js"></script>
+    <script src="./vendor/prism/prism-json.min.js"></script>
+    <script src="./vendor/prism/prism-bash.min.js"></script>
+    <script src="./vendor/prism/prism-diff.min.js"></script>
+    <script src="./vendor/plugins/front-matter.min.js"></script>
+    <script src="./vendor/plugins/search.min.js"></script>
+  </body>
+</html>
